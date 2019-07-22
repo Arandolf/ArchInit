@@ -1,0 +1,47 @@
+#!/bin/bash
+
+# Disk thing
+	
+	# Partitioning
+	parted /dev/sda -s mklabel gpt
+	parted /dev/sda -s mkpart primary fat32 1MiB 512MiB
+	mkfs.vfat -F32 /dev/sda1
+	parted /dev/sda -siset 1 esp on
+	parted /dev/sda -s mkpart primary xfs 512MiB 20.512GiB
+	mkfs.xfs /dev/sda2
+	parted /dev/sda -s mkpart primary xfs 20.512GiB 100%
+	mkfs.xfs /dev/sda3
+
+	# Mount partitions
+	mount /dev/sda3 /mnt
+	mkdir /mnt/boot /mnt/home &>/dev/null
+	mount /dev/sda1 /mnt/boot
+	mount /dev/sda4 /mnt/home
+
+	# Install the base system
+	echo "Server = http://archlinux.mirror.garr.it/$repo/os/$arch" > /etc/pacman.d/mirrorlist
+	pacman -Sy
+	pacstrap /mnt base base-devel
+	
+	# Generate the fstab 
+	genfstab -U /mnt >> /mnt/etc/fstab
+
+# System configuration
+
+arch-chroot /mnt
+
+	# Region and language
+	ln -sf /usr/share/zoneinfo/Europe/Rome /etc/localtime
+	hwclock --systohc
+	echo "en_US.UTF-8 UTF-8" > /etc/locale.gen
+	locale-gen
+	echo "LANG=en_US.UTF-8" > /etc/locale.conf
+	echo "KEYMAP=it" > /etc/vconsole.conf
+	
+	# Network configuration
+	echo "felinesec" > /etc/hostname
+	echo -e "127.0.0.1     localhost \n::1           localhost \n127.0.1.1     felinesec.localdomain  felinesec" > /etc/hosts
+
+	# Bootloader
+	bootctl --path=/boot install
+	
