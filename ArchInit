@@ -27,7 +27,7 @@
 	mount /dev/sda3 /mnt/home
 
 	# Install the base system
-	echo "Server = http://archlinux.mirror.garr.it/$repo/os/$arch" > /etc/pacman.d/mirrorlist
+	echo 'Server = http://archlinux.mirror.garr.it/archlinux/$repo/os/$arch' > /etc/pacman.d/mirrorlist
 	pacman -Sy
 	pacstrap /mnt base base-devel
 	
