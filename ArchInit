@@ -3,14 +3,22 @@
 # Disk thing
 	
 	# Partitioning
-	parted /dev/sda -s mklabel gpt
-	parted /dev/sda -s mkpart primary fat32 1MiB 512MiB
+	parted /dev/sda mklabel gpt
+		sleep 1
+	parted -s /dev/sda mkpart primary fat32 1MiB 512MiB
+		sleep 1
 	mkfs.vfat -F32 /dev/sda1
-	parted /dev/sda -siset 1 esp on
-	parted /dev/sda -s mkpart primary xfs 512MiB 20.512GiB
+		sleep 1
+	parted -s /dev/sda set 1 esp on
+		sleep 1
+	parted -s /dev/sda mkpart primary xfs 512MiB 20.512GiB
+		sleep 1
 	mkfs.xfs /dev/sda2
+		sleep 1
 	parted /dev/sda -s mkpart primary xfs 20.512GiB 100%
+		sleep 1
 	mkfs.xfs /dev/sda3
+		sleep 1
 
 	# Mount partitions
 	mount /dev/sda3 /mnt
