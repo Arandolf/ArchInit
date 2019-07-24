@@ -21,10 +21,10 @@
 		sleep 1
 
 	# Mount partitions
-	mount /dev/sda3 /mnt
+	mount /dev/sda2 /mnt
 	mkdir /mnt/boot /mnt/home &>/dev/null
 	mount /dev/sda1 /mnt/boot
-	mount /dev/sda4 /mnt/home
+	mount /dev/sda3 /mnt/home
 
 	# Install the base system
 	echo "Server = http://archlinux.mirror.garr.it/$repo/os/$arch" > /etc/pacman.d/mirrorlist
