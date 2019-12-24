@@ -34,20 +34,20 @@
 chroot="arch-chroot /mnt"
 
 	# Region and language
-	$chroot ln -sf /usr/share/zoneinfo/Europe/Rome /etc/localtime
-	$chroot hwclock --systohc
-	$chroot echo "en_US.UTF-8 UTF-8" > /etc/locale.gen
-	$chroot locale-gen
-	$chroot echo "LANG=en_US.UTF-8" > /etc/locale.conf
-	$chroot echo "KEYMAP=it" > /etc/vconsole.conf
+	arch-chroot /mnt ln -sf /usr/share/zoneinfo/Europe/Rome /etc/localtime
+	arch-chroot /mnt hwclock --systohc
+	arch-chroot /mnt echo "en_US.UTF-8 UTF-8" > /etc/locale.gen
+	arch-chroot /mnt locale-gen
+	arch-chroot /mnt echo "LANG=en_US.UTF-8" > /etc/locale.conf
+	arch-chroot /mnt echo "KEYMAP=it" > /etc/vconsole.conf
 
 	# Network configuration
-	$chroot echo "felinesec" > /etc/hostname
-	$chroot echo -e "127.0.0.1     localhost \n::1           localhost \n127.0.1.1     felinesec.localdomain  felinesec" > /etc/hosts
+	arch-chroot /mnt echo "felinesec" > /etc/hostname
+	arch-chroot /mnt echo -e "127.0.0.1     localhost \n::1           localhost \n127.0.1.1     felinesec.localdomain  felinesec" > /etc/hosts
 
 	# Bootloader
-	$chroot bootctl --path=/boot install
-	$chroot touch /boot/loader/loader.conf 
-	$chroot touch /boot/loader/entries/arch.conf
-	$chroot echo -e "default  arch \ntimeout  4 \nconsole-mode max \neditor   no" > /boot/loader/loader.conf
-	$chroot echo -e "title   Arch Linux \nlinux   /vmlinuz-linux \ninitrd  /intel-ucode.img \ninitrd  /initramfs-linux.img \noptions root=LABEL=arch_os rw" > /boot/loader/entries/arch.conf
+	arch-chroot /mnt bootctl --path=/boot install
+	arch-chroot /mnt touch /boot/loader/loader.conf 
+	arch-chroot /mnt touch /boot/loader/entries/arch.conf
+	arch-chroot /mnt echo -e "default  arch \ntimeout  4 \nconsole-mode max \neditor   no" > /boot/loader/loader.conf
+	arch-chroot /mnt echo -e "title   Arch Linux \nlinux   /vmlinuz-linux \ninitrd  /intel-ucode.img \ninitrd  /initramfs-linux.img \noptions root=LABEL=arch_os rw" > /boot/loader/entries/arch.conf
