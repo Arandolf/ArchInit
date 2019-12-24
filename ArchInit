@@ -20,7 +20,6 @@
 	mount /dev/sda2 /mnt
 	mkdir /mnt/boot /mnt/home &>/dev/null
 	mount /dev/sda1 /mnt/boot
-	mount /dev/sda3 /mnt/home
 
 	# Install the base system
 	echo 'Server = http://archlinux.mirror.garr.it/archlinux/$repo/os/$arch' > /etc/pacman.d/mirrorlist
@@ -48,5 +47,7 @@ chroot="arch-chroot /mnt"
 
 	# Bootloader
 	$chroot bootctl --path=/boot install
+	$chroot touch /boot/loader/loader.conf 
+	$chroot touch /boot/loader/entries/arch.conf
 	$chroot echo -e "default  arch \ntimeout  4 \nconsole-mode max \neditor   no" > /boot/loader/loader.conf
 	$chroot echo -e "title   Arch Linux \nlinux   /vmlinuz-linux \ninitrd  /intel-ucode.img \ninitrd  /initramfs-linux.img \noptions root=LABEL=arch_os rw" > /boot/loader/entries/arch.conf
