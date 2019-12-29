@@ -24,30 +24,8 @@
 	# Install the base system
 	echo 'Server = http://archlinux.mirror.garr.it/archlinux/$repo/os/$arch' > /etc/pacman.d/mirrorlist
 	pacman -Sy
-	pacstrap /mnt base base-devel linux-zen intel-ucode i3-gaps
+	pacstrap /mnt base base-devel linux-zen linux-zen-headers intel-ucode i3-gaps networkmanager xorg xf86-video-intel mesa 
 
 	# Generate the fstab 
 	genfstab -U /mnt >> /mnt/etc/fstab
 
-# System configuration
-
-chroot="arch-chroot /mnt"
-
-	# Region and language
-	arch-chroot /mnt ln -sf /usr/share/zoneinfo/Europe/Rome /etc/localtime
-	arch-chroot /mnt hwclock --systohc
-	arch-chroot /mnt echo "en_US.UTF-8 UTF-8" > /etc/locale.gen
-	arch-chroot /mnt locale-gen
-	arch-chroot /mnt echo "LANG=en_US.UTF-8" > /etc/locale.conf
-	arch-chroot /mnt echo "KEYMAP=it" > /etc/vconsole.conf
-
-	# Network configuration
-	arch-chroot /mnt echo "felinesec" > /etc/hostname
-	arch-chroot /mnt echo -e "127.0.0.1     localhost \n::1           localhost \n127.0.1.1     felinesec.localdomain  felinesec" > /etc/hosts
-
-	# Bootloader
-	arch-chroot /mnt bootctl --path=/boot install
-	arch-chroot /mnt touch /boot/loader/loader.conf 
-	arch-chroot /mnt touch /boot/loader/entries/arch.conf
-	arch-chroot /mnt echo -e "default  arch \ntimeout  4 \nconsole-mode max \neditor   no" > /boot/loader/loader.conf
-	arch-chroot /mnt echo -e "title   Arch Linux \nlinux   /vmlinuz-linux \ninitrd  /intel-ucode.img \ninitrd  /initramfs-linux.img \noptions root=LABEL=arch_os rw" > /boot/loader/entries/arch.conf

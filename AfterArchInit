@@ -1,0 +1,24 @@
+# System configuration
+
+        # Region and language
+        ln -sf /usr/share/zoneinfo/Europe/Rome /etc/localtime
+        hwclock --systohc
+        echo "en_US.UTF-8 UTF-8" > /etc/locale.gen
+        locale-gen
+        echo "LANG=en_US.UTF-8" > /etc/locale.conf
+        echo "KEYMAP=it" > /etc/vconsole.conf
+
+        # Network configuration
+        echo "felinesec" > /etc/hostname
+        echo -e "127.0.0.1     localhost \n::1           localhost \n127.0.1.1     felinesec.localdomain  felinesec" > /etc/hosts
+
+        # Bootloader
+        bootctl --path=/boot install
+	echo -e "default  arch \ntimeout  4 \nconsole-mode max \neditor   no" > /boot/loader/loader.conf
+        echo -e "title   Arch Linux \nlinux   /vmlinuz-linux \ninitrd  /intel-ucode.img \ninitrd  /initramfs-linux.img \noptions root=LABEL=arch_os rw" > /boot/loader/entries/arch.conf
+
+	# User
+	useradd -m -G wheel -s /bin/bash arandolf
+	echo "Insert passwd"
+	passwd arandolf
+
